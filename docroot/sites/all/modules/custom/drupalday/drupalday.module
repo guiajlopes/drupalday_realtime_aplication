@@ -1,0 +1,75 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function drupalday_menu() {
+  $items['nodejs_form'] = array(
+    'title' => 'NodeJS Form',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('drupalday_form'),
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+/**
+ * Form constructor : DrupalDay Form.
+ *
+ * @param array $form
+ * @param array $form_state
+ *
+ * @return array
+ */
+function drupalday_form($form, &$form_state) {
+  // Create channel by token.
+  nodejs_send_content_channel_token('drupalday_form');
+
+  // Form components.
+  $form['text'] = array(
+    '#type' => 'textfield',
+    '#required' => TRUE,
+    '#attributes' => array('placeholder' => array('Digite sua mensagem'), 'class' => array('text-drupalday')),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Send'),
+    '#ajax' => array(
+      'callback' => 'drupalday_form_ajax_submit'
+    ),
+  );
+
+  $form['container'] = array(
+    '#type' => 'markup',
+    '#markup' => '<div id="mensages-drupalday-form"></div>',
+    '#attached' => array(
+      'js' => array(drupal_get_path('module', 'drupalday') . '/js/drupalday.js')
+    ),
+  );
+
+  return $form;
+}
+
+/**
+ * Form submit callback : drupalday_form.
+ *
+ * @see drupalday_form()
+ */
+function drupalday_form_ajax_submit($form, &$form_state) {
+  $text = $form_state['values']['text'];
+
+  // Build message object.
+  $message = new stdClass();
+  $message->channel = 'drupalday_form';
+  $message->callback = 'drupalday';
+  $message->data['append_content'] = $text;
+
+  // Send message to the content channel.
+  nodejs_send_content_channel_message($message);
+
+  $commands[] = ajax_command_invoke('.text-drupalday', 'val', array(''));
+
+  return array('#type' => 'ajax', '#commands' => $commands);
+}

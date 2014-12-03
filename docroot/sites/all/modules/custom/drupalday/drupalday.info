@@ -1,0 +1,5 @@
+name = Drupal Day
+description = Modulo para o Drupal Day POA
+package = Nodejs
+version = 7.x-1.0
+core = 7.x
