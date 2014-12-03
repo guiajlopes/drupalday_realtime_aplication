@@ -1,0 +1,19 @@
+#mensages-drupalday-form {
+  padding: 0;
+  margin-left: 0;
+}
+
+.drupalday__row {
+  list-style: none;
+  padding: 10px;
+  border: solid 1px #e5e5e5;
+  margin-bottom: 10px;
+  border-radius: 6px;
+}
+
+.drupalday__row .name {
+  color: #000000;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+

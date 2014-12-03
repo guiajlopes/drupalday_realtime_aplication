@@ -5,7 +5,7 @@
   Drupal.Nodejs.callbacks.drupalday = {
     callback: function (message) {
       if (message.channel == 'drupalday_form') {
-        $('#mensages-drupalday-form').append('<p>' + message.data.append_content + '</p>');
+        $('#mensages-drupalday-form').append(message.data.append_content);
       }
     }
   };

@@ -23,6 +23,10 @@ function drupalday_menu() {
  * @return array
  */
 function drupalday_form($form, &$form_state) {
+  $path = drupal_get_path('module', 'drupalday');
+  // Add css in page.
+  drupal_add_css($path . '/css/drupalday.css');
+
   // Create channel by token.
   nodejs_send_content_channel_token('drupalday_form');
 
@@ -43,9 +47,9 @@ function drupalday_form($form, &$form_state) {
 
   $form['container'] = array(
     '#type' => 'markup',
-    '#markup' => '<div id="mensages-drupalday-form"></div>',
+    '#markup' => '<ul id="mensages-drupalday-form"></ul>',
     '#attached' => array(
-      'js' => array(drupal_get_path('module', 'drupalday') . '/js/drupalday.js')
+      'js' => array($path . '/js/drupalday.js'),
     ),
   );
 
@@ -64,12 +68,19 @@ function drupalday_form_ajax_submit($form, &$form_state) {
   $message = new stdClass();
   $message->channel = 'drupalday_form';
   $message->callback = 'drupalday';
-  $message->data['append_content'] = $text;
+  $message->data['append_content'] = drupalday_append_content($text);
 
   // Send message to the content channel.
   nodejs_send_content_channel_message($message);
 
+  // Clear textfield.
   $commands[] = ajax_command_invoke('.text-drupalday', 'val', array(''));
 
   return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+function drupalday_append_content($text) {
+  global $user;
+
+  return "<li class=\"drupalday__row\"><span class=\"name\">{$user->name}</span><p class=\"text\">{$text}<p>";
 }
