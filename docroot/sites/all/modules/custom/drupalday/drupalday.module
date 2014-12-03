@@ -79,6 +79,11 @@ function drupalday_form_ajax_submit($form, &$form_state) {
   return array('#type' => 'ajax', '#commands' => $commands);
 }
 
+/**
+ * Format append content.
+ *
+ * @param string $text
+ */
 function drupalday_append_content($text) {
   global $user;
 
