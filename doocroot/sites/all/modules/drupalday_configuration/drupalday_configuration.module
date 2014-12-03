@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the drupalday_configuration feature.
+ */
+
+include_once 'drupalday_configuration.features.inc';

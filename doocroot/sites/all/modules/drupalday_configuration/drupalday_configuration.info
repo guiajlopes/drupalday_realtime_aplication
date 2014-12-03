@@ -1,0 +1,13 @@
+name = drupalday_configuration
+description = Configurações do projeto para apresentar no DrupalDay
+core = 7.x
+package = DrupalDay
+version = 7.x-1.0
+project = drupalday_configuration
+dependencies[] = ctools
+dependencies[] = strongarm
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[variable][] = site_name
+features[variable][] = theme_default
+mtime = 1417565632
